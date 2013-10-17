@@ -1,0 +1,37 @@
+<%= client.time.all.map{|e| "#{e.display} - #{e.id}"} %>
+
+<form action="/set" method="post">
+
+    <div>
+        <label>Button 1</label>
+        <input type="text" name="button-1"/>
+    </div>
+
+    <div>
+        <label>Button 2</label>
+        <input type="text" name="button-2"/>
+    </div>
+
+    <div>
+        <label>Button 3</label>
+        <input type="text" name="button-3"/>
+    </div>
+
+    <div>
+        <label>Button 4</label>
+        <input type="text" name="button-4"/>
+    </div>
+
+    <div>
+        <label>Button 5</label>
+        <input type="text" name="button-5"/>
+    </div>
+
+    <div>
+        <label>Button 6</label>
+        <input type="text" name="button-6"/>
+    </div>
+
+    <input type="submit" value="Submit" class="button" />
+
+</form>
