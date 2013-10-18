@@ -1,37 +1,43 @@
-<%= client.time.all.map{|e| "#{e.display} - #{e.id}"} %>
+<% client.time.all.each do |e| %>
+  <li>
+    <%= "#{e.project}: #{e.task} - #{e.id}" %>
+  </li>
+<% end %>
+
+<br>
 
 <form action="/set" method="post">
 
-    <div>
-        <label>Button 1</label>
-        <input type="text" name="button-1"/>
-    </div>
+  <div>
+    <label>Button 1</label>
+    <input type="text" name="button-1" value="<%= Plant.first(:button => 1).entry_id %>"/>
+  </div>
 
-    <div>
-        <label>Button 2</label>
-        <input type="text" name="button-2"/>
-    </div>
+  <div>
+    <label>Button 2</label>
+    <input type="text" name="button-2" value="<%= Plant.first(:button => 2).entry_id %>"/>
+  </div>
 
-    <div>
-        <label>Button 3</label>
-        <input type="text" name="button-3"/>
-    </div>
+  <div>
+    <label>Button 3</label>
+    <input type="text" name="button-3" value="<%= Plant.first(:button => 3).entry_id %>"/>
+  </div>
 
-    <div>
-        <label>Button 4</label>
-        <input type="text" name="button-4"/>
-    </div>
+  <div>
+    <label>Button 4</label>
+    <input type="text" name="button-4" value="<%= Plant.first(:button => 4).entry_id %>"/>
+  </div>
 
-    <div>
-        <label>Button 5</label>
-        <input type="text" name="button-5"/>
-    </div>
+  <div>
+    <label>Button 5</label>
+    <input type="text" name="button-5" value="<%= Plant.first(:button => 5).entry_id %>"/>
+  </div>
 
-    <div>
-        <label>Button 6</label>
-        <input type="text" name="button-6"/>
-    </div>
+  <div>
+    <label>Button 6</label>
+    <input type="text" name="button-6" value="<%= Plant.first(:button => 6).entry_id %>"/>
+  </div>
 
-    <input type="submit" value="Submit" class="button" />
+  <input type="submit" value="Submit" class="button" />
 
 </form>

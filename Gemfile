@@ -1,5 +1,9 @@
+source 'https://rubygems.org'
+
 gem 'harvested', :github => "efatsi/harvested"
 gem 'sinatra'
 gem 'thin'
 gem 'data_mapper'
-gem 'dm-postgres-adapter'
+gem 'dm-sqlite-adapter'
+gem 'shotgun'
+gem 'pry'

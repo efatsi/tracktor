@@ -2,9 +2,11 @@ require 'bundler'
 Bundler.setup(:default)
 Bundler.require
 
+load 'models/plant.rb'
+
 configure do
-  # DataMapper.setup(:default)
-  # DataMapper.finalize
+  DataMapper::setup(:default, "sqlite3://#{Dir.pwd}/plow.db")
+  DataMapper.finalize
 end
 
 get "/" do
@@ -18,9 +20,10 @@ end
 
 post "/set" do
   params.each do |key, value|
-    plant = Plant.where(:button => key[-1].to_i)
-    plant.update_attributes(:entry_id => value)
+    plant = Plant.first(:button => key[-1].to_i)
+    plant.update(:entry_id => value)
   end
+  redirect to("/")
 end
 
 get "/submit" do
