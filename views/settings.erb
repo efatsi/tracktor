@@ -10,34 +10,36 @@
 
   <div>
     <label>Button 1</label>
-    <input type="text" name="button-1" value="<%= Plant.first(:button => 1).entry_id %>"/>
+    <input type="text" name="button-1" value="<%= Plant.first(:button => 1).try(:entry_id) %>"/>
   </div>
 
   <div>
     <label>Button 2</label>
-    <input type="text" name="button-2" value="<%= Plant.first(:button => 2).entry_id %>"/>
+    <input type="text" name="button-2" value="<%= Plant.first(:button => 2).try(:entry_id) %>"/>
   </div>
 
   <div>
     <label>Button 3</label>
-    <input type="text" name="button-3" value="<%= Plant.first(:button => 3).entry_id %>"/>
+    <input type="text" name="button-3" value="<%= Plant.first(:button => 3).try(:entry_id) %>"/>
   </div>
 
   <div>
     <label>Button 4</label>
-    <input type="text" name="button-4" value="<%= Plant.first(:button => 4).entry_id %>"/>
+    <input type="text" name="button-4" value="<%= Plant.first(:button => 4).try(:entry_id) %>"/>
   </div>
 
   <div>
     <label>Button 5</label>
-    <input type="text" name="button-5" value="<%= Plant.first(:button => 5).entry_id %>"/>
+    <input type="text" name="button-5" value="<%= Plant.first(:button => 5).try(:entry_id) %>"/>
   </div>
 
   <div>
     <label>Button 6</label>
-    <input type="text" name="button-6" value="<%= Plant.first(:button => 6).entry_id %>"/>
+    <input type="text" name="button-6" value="<%= Plant.first(:button => 6).try(:entry_id) %>"/>
   </div>
 
   <input type="submit" value="Submit" class="button" />
 
 </form>
+
+<a href="/">Back</a>

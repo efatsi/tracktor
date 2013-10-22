@@ -3,10 +3,18 @@ Bundler.setup(:default)
 Bundler.require
 
 load 'models/plant.rb'
+load 'helpers/try.rb'
 
 configure do
-  DataMapper::setup(:default, "sqlite3://#{Dir.pwd}/plow.db")
+  DataMapper.setup(:default, "sqlite3://#{Dir.pwd}/tracktor.db")
   DataMapper.finalize
+
+  if Plant.count == 0
+    client = Harvest.client('vigetlabs', ENV["HARVEST_EMAIL"], ENV["HARVEST_PASSWORD"])
+    client.time.all.map(&:id).each_with_index do |entry_id, index|
+      Plant.create(:button => index + 1, :entry_id => entry_id)
+    end
+  end
 end
 
 get "/" do
@@ -20,23 +28,22 @@ end
 
 post "/set" do
   params.each do |key, value|
-    plant = Plant.first(:button => key[-1].to_i)
+    button = key[-1].to_i
+    plant = Plant.first(:button => button) || Plant.create(:button => button)
     plant.update(:entry_id => value)
   end
-  redirect to("/")
+
+  redirect "/"
 end
 
-get "/submit" do
-  client.time.toggle(params[:timer])
+get "/toggle" do
+  if plant = Plant.first(:button => params[:timer])
+    client.time.toggle(plant.entry_id)
+  end
+
+  redirect "/"
 end
 
 def client
-  @client ||= Harvest.client('vigetlabs', 'eli.fatsi@viget.com', 'Smelisas-0')
+  @client ||= Harvest.client('vigetlabs', ENV["HARVEST_EMAIL"], ENV["HARVEST_PASSWORD"])
 end
-# require 'harvested'
-# require 'sinatra'
-
-# harvest = Harvest.client('vigetlabs', 'eli.fatsi@viget.com', 'Smelisas-0')
-
-# id = harvest.time.all.map(&:id).first
-# harvest.time.toggle(id)
