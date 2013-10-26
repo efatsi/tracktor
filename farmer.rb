@@ -2,15 +2,17 @@ require 'bundler'
 Bundler.setup(:default)
 Bundler.require
 
+require 'json'
+
 load 'models/plant.rb'
-load 'helpers/try.rb'
+load 'helpers/nil_helper.rb'
 
 configure do
   DataMapper.setup(:default, "sqlite3://#{Dir.pwd}/tracktor.db")
   DataMapper.finalize
 
   if Plant.count == 0
-    client = Harvest.client('vigetlabs', ENV["HARVEST_EMAIL"], ENV["HARVEST_PASSWORD"])
+    client = Harvest.client(ENV["HARVEST_DOMAIN"], ENV["HARVEST_EMAIL"], ENV["HARVEST_PASSWORD"])
     client.time.all.map(&:id).each_with_index do |entry_id, index|
       Plant.create(:button => index + 1, :entry_id => entry_id)
     end
@@ -37,13 +39,16 @@ post "/set" do
 end
 
 get "/toggle" do
-  if plant = Plant.first(:button => params[:timer])
-    client.time.toggle(plant.entry_id)
-  end
+  content_type :json
 
-  redirect "/"
+  if plant = Plant.first(:button => params[:timer])
+    timer = client.time.toggle(plant.entry_id)
+    { :success => true, :on => timer.timer_started_at.present? }.to_json
+  else
+    { :success => false }.to_json
+  end
 end
 
 def client
-  @client ||= Harvest.client('vigetlabs', ENV["HARVEST_EMAIL"], ENV["HARVEST_PASSWORD"])
+  @client ||= Harvest.client(ENV["HARVEST_DOMAIN"], ENV["HARVEST_EMAIL"], ENV["HARVEST_PASSWORD"])
 end
