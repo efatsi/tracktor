@@ -6,7 +6,7 @@ Tracking your Harvest timers the Arduino way
 
 You'll need to have 6 buttons and LEDs hooked up like so:
 
-![tracktor-fritzing-diagram](http://fritzing.org/media/uploads/headers/home.jpg)
+![tracktor-fritzing-diagram](http://cl.ly/image/0F0g323c3v0d/tractor_diagram.jpg)
 
 Set the following environment variables:
 
