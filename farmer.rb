@@ -49,6 +49,20 @@ get "/toggle" do
   end
 end
 
+get "/running_timer" do
+  content_type :json
+
+  if plant = Plant.first(:entry_id => running_timer_id)
+    { :running => true, :button => plant.button }.to_json
+  else
+    { :running => false }.to_json
+  end
+end
+
+def running_timer_id
+  client.time.all.select(&:timer_started_at).first.try(:id)
+end
+
 def client
   @client ||= Harvest.client(ENV["HARVEST_DOMAIN"], ENV["HARVEST_EMAIL"], ENV["HARVEST_PASSWORD"])
 end

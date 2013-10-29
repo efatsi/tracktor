@@ -1,6 +1,7 @@
 require 'dino'
 require 'json'
 
+## Setup
 board    = Dino::Board.new(Dino::TxRx::Serial.new)
 
 @button_1 = Dino::Components::Button.new(pin: 2, board: board)
@@ -51,6 +52,16 @@ def button(number)
   instance_variable_get("@button_#{number}")
 end
 
+def check_for_running_timer
+  timer_status = JSON.parse(`curl http://localhost:4567/running_timer`)
+  if timer_status["running"] == true
+    turn_all_off
+    turn_on timer_status["button"]
+  end
+end
+## End of Setup
+
+check_for_running_timer
 
 (1..6).each do |number|
   button(number).up do
