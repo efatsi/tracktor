@@ -17,7 +17,7 @@ Set the following environment variables:
 
 Initialize 6 (or less) timers in the Harvest app for today.
 
-##Runing The App
+##Running The App
 
 Start the Sinatra app (ruby farmer.rb) and direct your browser to http://localhost:4567/settings. You'll see the list of today's timers on Harvest and their IDs. Copy paste the IDs into the Button fields you want and submit the form.
 
