@@ -7,8 +7,11 @@ class ButtonSetter < Struct.new(:params)
   def set
     params.each do |key, value|
       button = key[-1].to_i
-      plant = Plant.first(:button => button) || Plant.create(:button => button)
-      plant.update(:harvest_id => value)
+      plant  = Plant.first_or_new(button)
+
+      plant.task_id = value
+
+      plant.save
     end
   end
 

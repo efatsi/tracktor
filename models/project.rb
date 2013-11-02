@@ -13,7 +13,7 @@ class Project
     Task.all(:project_id => id)
   end
 
-  def self.find_or_create(project_hash)
+  def self.first_or_create(project_hash)
     first(:harvest_id => project_hash["id"]) ||
     create({
       :name        => project_hash["name"],

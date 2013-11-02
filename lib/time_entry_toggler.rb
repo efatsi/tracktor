@@ -1,13 +1,13 @@
-class TimeEntryToggler < Struct.new(:plant)
+class TimeEntryToggler < Struct.new(:button)
 
-  def self.toggle(plant)
-    new(plant).toggle
+  def self.toggle(button)
+    new(button).toggle
   end
 
   def toggle
-    if time_entry = plant.existing_time_entry
+    if plant && time_entry = plant.existing_time_entry
       { :success => true, :on => toggle_timer(time_entry) }.to_json
-    elsif plant.new_time_entry
+    elsif plant && plant.new_time_entry
       { :success => true, :on => true }.to_json
     else
       { :success => false }.to_json

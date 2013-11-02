@@ -6,10 +6,10 @@ class HarvestSeeder
 
   def seed_projects_and_tasks
     harvest_projects.each do |project_json|
-      project = Project.find_or_create(project_json)
+      project = Project.first_or_create(project_json)
 
       project_json["tasks"].each do |task_json|
-        Task.find_or_create(task_json.merge("project_id" => project.id))
+        Task.first_or_create(task_json.merge("project_id" => project.id))
       end
     end
   end

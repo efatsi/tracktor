@@ -7,6 +7,10 @@ class Plant
 
   validates_presence_of :button, :task_id
 
+  def self.first_or_new(button)
+    first(:button => button) || new(:button => button)
+  end
+
   # belongs_to :task
   def task
     Task.first(:id => task_id)
