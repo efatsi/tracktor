@@ -1,6 +1,6 @@
 GIT
   remote: git://github.com/efatsi/harvested.git
-  revision: 1fdb8aa90652d16653d0c8f04307dad5c0d0f107
+  revision: f65a1acc2abd32929e4eb83b9f682db46398e66b
   specs:
     harvested (1.0.1)
       hashie (~> 1)
@@ -11,6 +11,7 @@ GEM
   remote: https://rubygems.org/
   specs:
     addressable (2.3.5)
+    awesome_print (1.2.0)
     bcrypt-ruby (3.1.1)
     coderay (1.0.9)
     daemons (1.1.9)
@@ -67,13 +68,13 @@ GEM
     eventmachine (1.0.3)
     fastercsv (1.5.5)
     hashie (1.2.0)
-    httparty (0.11.0)
-      multi_json (~> 1.0)
+    httparty (0.12.0)
+      json (~> 1.8)
       multi_xml (>= 0.5.2)
-    json (1.8.0)
+    json (1.8.1)
     json_pure (1.8.0)
     method_source (0.8.2)
-    multi_json (1.8.1)
+    multi_json (1.8.2)
     multi_xml (0.5.5)
     pry (0.9.12.2)
       coderay (~> 1.0.5)
@@ -102,6 +103,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  awesome_print
   data_mapper
   dino
   dm-sqlite-adapter

@@ -19,7 +19,7 @@ board    = Dino::Board.new(Dino::TxRx::Serial.new)
 @led_6    = Dino::Components::Led.new(pin: 8,  board: board)
 
 def react_with_number(number)
-  response = JSON.parse(`curl http://localhost:4567/toggle?timer=#{number}`)
+  response = JSON.parse(`curl http://localhost:4567/toggle?button=#{number}`)
   puts response
 
   if response["success"]
