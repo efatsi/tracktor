@@ -14,15 +14,16 @@ class TimeEntryToggler < Struct.new(:button)
     end
   end
 
+  # returns true  if timer is on
+  # returns false if timer is off
+  def toggle_timer(time_entry)
+    client.time.toggle(time_entry.harvest_id).timer_started_at.present?
+  end
+
   private
 
   def plant
     @plant ||= Plant.first(:button => button)
   end
 
-  # returns true  if timer is on
-  # returns false if timer is off
-  def toggle_timer(time_entry)
-    client.time.toggle(time_entry.harvest_id).timer_started_at.present?
-  end
 end

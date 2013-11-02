@@ -18,7 +18,10 @@ class Plant
 
   # has_one :time_entry
   def existing_time_entry
-    @existing_time_entry ||= TimeEntry.for_today.first(:plant_id => self.id)
+    @existing_time_entry ||= TimeEntry.for_today.first({
+      :plant_id => id,
+      :task_id  => task_id
+    })
   end
 
   def new_time_entry
