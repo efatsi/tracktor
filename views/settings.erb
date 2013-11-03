@@ -1,49 +1,25 @@
-<% Project.all.each do |project| %>
-  <li>
-    <%= project.to_s %>
-    <ul>
-      <% project.tasks.each do |task| %>
-        <li>
-          <%= task.name %>: <%= task.id %>
-        </li>
-      <% end %>
-    </ul>
-  </li>
-<% end %>
-
-<br>
-
 <form action="/set" method="post">
 
-  <div>
-    <label>Button 1</label>
-    <input type="text" name="button-1" value="<%= Plant.first(:button => 1).try(:task_id) %>"/>
-  </div>
+  <% (1..6).each do |number| %>
 
-  <div>
-    <label>Button 2</label>
-    <input type="text" name="button-2" value="<%= Plant.first(:button => 2).try(:task_id) %>"/>
-  </div>
+    <div>
+      <label>Button 1</label>
+      <select name="button-<%= number %>">
+        <% selected_task_id = Plant.first(:button => number).try(:task_id) %>
+        <option value=""></option>
+        <% Project.all.each do |project| %>
+          <optgroup label="<%= project.to_s %>">
+            <% project.tasks.each do |task| %>
+              <option value="<%= task.id %>" <%= "selected='selected'" if task.id == selected_task_id %>>
+                <%= task.name %>
+              </option>
+            <% end %>
+          </optgroup>
+        <% end %>
+      </select>
+    </div>
 
-  <div>
-    <label>Button 3</label>
-    <input type="text" name="button-3" value="<%= Plant.first(:button => 3).try(:task_id) %>"/>
-  </div>
-
-  <div>
-    <label>Button 4</label>
-    <input type="text" name="button-4" value="<%= Plant.first(:button => 4).try(:task_id) %>"/>
-  </div>
-
-  <div>
-    <label>Button 5</label>
-    <input type="text" name="button-5" value="<%= Plant.first(:button => 5).try(:task_id) %>"/>
-  </div>
-
-  <div>
-    <label>Button 6</label>
-    <input type="text" name="button-6" value="<%= Plant.first(:button => 6).try(:task_id) %>"/>
-  </div>
+  <% end %>
 
   <input type="submit" value="Submit" class="button" />
 
