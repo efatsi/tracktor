@@ -1,9 +1,14 @@
+<script src="/javascripts/jquery.min.js"></script>
+<script src="/javascripts/chosen.jquery.js"></script>
+<link rel="stylesheet" type="text/css" href="/stylesheets/chosen.min.css">
+
+
 <form action="/set" method="post">
 
   <% (1..6).each do |number| %>
 
     <div>
-      <label>Button 1</label>
+      <label>Button <%= number %></label>
       <select name="button-<%= number %>">
         <% selected_task_id = Plant.first(:button => number).try(:task_id) %>
         <option value=""></option>
@@ -19,6 +24,8 @@
       </select>
     </div>
 
+    <br>
+
   <% end %>
 
   <input type="submit" value="Submit" class="button" />
@@ -26,3 +33,7 @@
 </form>
 
 <a href="/">Back</a>
+
+<script>
+$("select").chosen()
+</script>
