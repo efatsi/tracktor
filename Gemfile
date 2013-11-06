@@ -1,4 +1,5 @@
 source 'https://rubygems.org'
+ruby '1.9.3'
 
 gem 'harvested', :github => "efatsi/harvested"
 gem 'sinatra'
