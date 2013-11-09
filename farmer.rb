@@ -11,7 +11,7 @@ Dir["lib/*.rb"].each     {|file| load file }
 include Client
 
 configure do
-  DataMapper.setup(:default, ENV['HEROKU_POSTGRESQL_SALMON_URL'])
+  DataMapper.setup(:default, ENV['HEROKU_POSTGRESQL_GRAY_URL'])
   DataMapper.finalize
 
   Initializer.set_it_up!
