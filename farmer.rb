@@ -9,6 +9,9 @@ Dir["helpers/*.rb"].each {|file| load file }
 Dir["lib/*.rb"].each     {|file| load file }
 
 include Client
+include CurrentUserHelper
+
+enable :sessions
 
 configure do
   DataMapper.setup(:default, ENV['HEROKU_POSTGRESQL_GRAY_URL'])
@@ -18,7 +21,19 @@ configure do
 end
 
 get "/" do
-  erb :index
+  if logged_in?
+    redirect "/home"
+  else
+    erb :login
+  end
+end
+
+get "/home" do
+  if logged_in?
+    erb :home
+  else
+    redirect "/"
+  end
 end
 
 get "/settings" do
