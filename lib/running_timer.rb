@@ -5,7 +5,8 @@ class RunningTimer
   end
 
   def find
-    if plant = Plant.first(:harvest_id => running_timer_id)
+    if time_entry = TimeEntry.first(:harvest_id => running_timer_id)
+      plant = time_entry.plant
       { :running => true, :button => plant.button }.to_json
     else
       { :running => false }.to_json

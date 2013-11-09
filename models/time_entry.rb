@@ -9,11 +9,12 @@ class TimeEntry
 
   validates_presence_of :date, :plant_id, :harvest_id, :task_id
 
-  # belongs_to :plant
-  # don't need `plant` method I believe
-
   def self.for_today
     all(:date => Date.today)
   end
 
+  # belongs_to :plant
+  def plant
+    Plant.first(:id => plant_id)
+  end
 end
