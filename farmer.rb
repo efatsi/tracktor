@@ -28,23 +28,33 @@ get "/" do
   end
 end
 
-get "/home" do
-  if logged_in?
-    erb :home
+post "/login" do
+  if user = User.first_or_create(params)
+    session[:user_token] = user.token
+    redirect "/home"
   else
     redirect "/"
   end
 end
 
-get "/settings" do
-  @client = client
-  erb :settings
+get "/logout" do
+  session[:user_token] = nil
+  redirect "/"
+end
+
+get "/home" do
+  if logged_in?
+    @client = client
+    erb :settings
+  else
+    redirect "/"
+  end
 end
 
 post "/set" do
   ButtonSetter.set(params)
 
-  redirect "/"
+  redirect "/home"
 end
 
 get "/toggle" do

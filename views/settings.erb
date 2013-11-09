@@ -2,6 +2,7 @@
 <script src="/javascripts/chosen.jquery.js"></script>
 <link rel="stylesheet" type="text/css" href="/stylesheets/chosen.min.css">
 
+<h3>User Token: <%= current_user.token %></h3>
 
 <form action="/set" method="post">
 
@@ -32,7 +33,7 @@
 
 </form>
 
-<a href="/">Back</a>
+<a href="/logout">Logout</a>
 
 <script>
 $("select").chosen()
