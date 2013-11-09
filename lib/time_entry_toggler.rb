@@ -1,7 +1,7 @@
-class TimeEntryToggler < Struct.new(:button)
+class TimeEntryToggler < Struct.new(:button, :user)
 
-  def self.toggle(button)
-    new(button).toggle
+  def self.toggle(button, user)
+    new(button, user).toggle
   end
 
   def toggle
@@ -23,7 +23,11 @@ class TimeEntryToggler < Struct.new(:button)
   private
 
   def plant
-    @plant ||= Plant.first(:button => button)
+    @plant ||= Plant.first(:button => button, :user_id => user.id)
+  end
+
+  def client
+    @client ||= user.client
   end
 
 end

@@ -1,12 +1,12 @@
-class HarvestSeeder
+class HarvestSeeder < Struct.new(:user)
 
-  def self.seed_projects_and_tasks
-    new.seed_projects_and_tasks
+  def self.seed_projects_and_tasks(user)
+    new(user).seed_projects_and_tasks
   end
 
   def seed_projects_and_tasks
     harvest_projects.each do |project_json|
-      project = Project.first_or_create(project_json)
+      project = Project.first_or_create(project_json, user)
 
       project_json["tasks"].each do |task_json|
         Task.first_or_create(task_json.merge("project_id" => project.id))
@@ -25,7 +25,7 @@ class HarvestSeeder
   end
 
   def raw_response
-    client.projects.send(:request, :get, client.credentials, '/daily')
+    user.client.projects.send(:request, :get, user.client.credentials, '/daily')
   end
 
 end

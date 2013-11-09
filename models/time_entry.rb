@@ -13,8 +13,5 @@ class TimeEntry
     all(:date => Date.today)
   end
 
-  # belongs_to :plant
-  def plant
-    Plant.first(:id => plant_id)
-  end
+  belongs_to :plant
 end

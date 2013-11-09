@@ -8,10 +8,7 @@ class Task
 
   validates_presence_of :name, :harvest_id, :project_id
 
-  # belongs_to :project
-  def project
-    Project.first(:id => project_id)
-  end
+  belongs_to :project
 
   def self.first_or_create(ticket_hash)
     first(:harvest_id => ticket_hash["id"], project_id => ticket_hash["project_id"]) ||

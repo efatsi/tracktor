@@ -5,20 +5,20 @@ class Project
   property :name, String
   property :harvest_id, Integer
   property :client_name, String
+  property :user_id, Integer
 
   validates_presence_of :name, :harvest_id, :client_name
 
-  # has_many :tasks
-  def tasks
-    Task.all(:project_id => id)
-  end
+  has n, :tasks
+  belongs_to :user
 
-  def self.first_or_create(project_hash)
-    first(:harvest_id => project_hash["id"]) ||
+  def self.first_or_create(project_hash, user)
+    first(:harvest_id => project_hash["id"], :user_id => user.id) ||
     create({
       :name        => project_hash["name"],
       :harvest_id  => project_hash["id"],
-      :client_name => project_hash["client"]
+      :client_name => project_hash["client"],
+      :user_id     => user.id
     })
   end
 

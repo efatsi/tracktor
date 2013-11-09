@@ -4,17 +4,18 @@ class Plant
   property :id, Serial
   property :button, Integer
   property :task_id, Integer
+  property :user_id, Integer
 
   validates_presence_of :button, :task_id
 
-  def self.first_or_new(button)
-    first(:button => button) || new(:button => button)
+  def self.first_or_new(button, user)
+    query = {:button => button, :user => user}
+
+    first(query) || new(query)
   end
 
-  # belongs_to :task
-  def task
-    Task.first(:id => task_id)
-  end
+  belongs_to :task
+  belongs_to :user
 
   # has_one :time_entry
   def existing_time_entry

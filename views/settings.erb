@@ -11,9 +11,11 @@
     <div>
       <label>Button <%= number %></label>
       <select name="button-<%= number %>">
-        <% selected_task_id = Plant.first(:button => number).try(:task_id) %>
+        <% selected_task_id = current_user.plants.first(:button => number).try(:task_id) %>
+
         <option value=""></option>
-        <% Project.all.each do |project| %>
+
+        <% current_user.projects.all.each do |project| %>
           <optgroup label="<%= project.to_s %>">
             <% project.tasks.each do |task| %>
               <option value="<%= task.id %>" <%= "selected='selected'" if task.id == selected_task_id %>>
@@ -22,6 +24,7 @@
             <% end %>
           </optgroup>
         <% end %>
+
       </select>
     </div>
 

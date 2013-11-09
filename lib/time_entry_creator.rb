@@ -50,4 +50,8 @@ class TimeEntryCreator < Struct.new(:plant)
     @task ||= plant.task
   end
 
+  def client
+    @client ||= plant.user.client
+  end
+
 end

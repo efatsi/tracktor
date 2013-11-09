@@ -8,7 +8,6 @@ Dir["models/*.rb"].each  {|file| load file }
 Dir["helpers/*.rb"].each {|file| load file }
 Dir["lib/*.rb"].each     {|file| load file }
 
-include Client
 include CurrentUserHelper
 
 enable :sessions
@@ -16,8 +15,6 @@ enable :sessions
 configure do
   DataMapper.setup(:default, ENV['HEROKU_POSTGRESQL_GRAY_URL'])
   DataMapper.finalize
-
-  Initializer.set_it_up!
 end
 
 get "/" do
@@ -43,28 +40,25 @@ get "/logout" do
 end
 
 get "/home" do
-  if logged_in?
-    @client = client
-    erb :settings
-  else
-    redirect "/"
-  end
+  require_login
+
+  SetterUpper.set_it_up!(current_user)
+  erb :settings
 end
 
 post "/set" do
-  ButtonSetter.set(params)
+  require_login
 
+  PlantSetter.set(params, current_user)
   redirect "/home"
 end
 
 get "/toggle" do
   content_type :json
-
-  TimeEntryToggler.toggle(params[:button])
+  TimeEntryToggler.toggle(params[:button], current_user)
 end
 
 get "/running_timer" do
   content_type :json
-
   RunningTimer.find
 end

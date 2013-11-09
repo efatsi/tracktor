@@ -13,6 +13,9 @@ class User
   validates_presence_of :domain, :email, :password
   validates_with_method :valid_harvest_account
 
+  has n, :projects
+  has n, :plants
+
   def self.first_or_create(params)
     if existing = first(:email => params[:email])
       existing.authenticate(params[:password])
@@ -52,7 +55,7 @@ class User
   end
 
   def client
-    @client ||= Harvest.client(domain, email, password)
+    Harvest.client(domain, email, password)
   end
 
 end
