@@ -5,7 +5,7 @@ module CurrentUserHelper
   end
 
   def current_user
-    User.first(:token => session[:user_token])
+    session_user || cookie_user
   end
 
   def token_user
@@ -14,6 +14,16 @@ module CurrentUserHelper
 
   def require_login
     redirect "/" unless logged_in?
+  end
+
+  private
+
+  def session_user
+    User.first(:token => session[:user_token])
+  end
+
+  def cookie_user
+    User.first(:token => request.cookies['user_token'])
   end
 
 end

@@ -3,6 +3,7 @@ Bundler.setup(:default)
 Bundler.require
 
 require 'json'
+require 'sinatra/cookies'
 
 Dir["models/*.rb"].each  {|file| load file }
 Dir["helpers/*.rb"].each {|file| load file }
@@ -28,6 +29,14 @@ end
 post "/login" do
   if user = User.first_or_create(params)
     session[:user_token] = user.token
+
+    if params[:remember]
+      response.set_cookie 'user_token', {
+        :value   => user.token,
+        :max_age => "15552000" # 6 months
+      }
+    end
+
     redirect "/home"
   else
     redirect "/"
@@ -36,6 +45,7 @@ end
 
 get "/logout" do
   session[:user_token] = nil
+  response.set_cookie 'user_token', nil
   redirect "/"
 end
 

@@ -3,6 +3,7 @@ ruby '1.9.3'
 
 gem 'harvested', :github => "efatsi/harvested"
 gem 'sinatra'
+gem 'sinatra-contrib'
 gem 'thin'
 gem 'data_mapper'
 gem 'dm-postgres-adapter'
