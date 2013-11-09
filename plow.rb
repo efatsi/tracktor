@@ -1,8 +1,17 @@
 require 'dino'
 require 'json'
 
+load 'light_show.rb'
+
 ## Begin Setup
-board    = Dino::Board.new(Dino::TxRx::Serial.new)
+board = Dino::Board.new(Dino::TxRx::Serial.new)
+
+@led_1 = Dino::Components::Led.new(pin: 8,  board: board)
+@led_2 = Dino::Components::Led.new(pin: 9,  board: board)
+@led_3 = Dino::Components::Led.new(pin: 10, board: board)
+@led_4 = Dino::Components::Led.new(pin: 11, board: board)
+@led_5 = Dino::Components::Led.new(pin: 12, board: board)
+@led_6 = Dino::Components::Led.new(pin: 13, board: board)
 
 @button_1 = Dino::Components::Button.new(pin: 2, board: board)
 @button_2 = Dino::Components::Button.new(pin: 3, board: board)
@@ -10,13 +19,6 @@ board    = Dino::Board.new(Dino::TxRx::Serial.new)
 @button_4 = Dino::Components::Button.new(pin: 5, board: board)
 @button_5 = Dino::Components::Button.new(pin: 6, board: board)
 @button_6 = Dino::Components::Button.new(pin: 7, board: board)
-
-@led_1    = Dino::Components::Led.new(pin: 8,  board: board)
-@led_2    = Dino::Components::Led.new(pin: 9,  board: board)
-@led_3    = Dino::Components::Led.new(pin: 10, board: board)
-@led_4    = Dino::Components::Led.new(pin: 11, board: board)
-@led_5    = Dino::Components::Led.new(pin: 12, board: board)
-@led_6    = Dino::Components::Led.new(pin: 13, board: board)
 
 def turn_all_off
   (1..6).each{|n| turn_off(n)}
@@ -34,10 +36,10 @@ def led(number)
   instance_variable_get("@led_#{number}")
 end
 
-def check_for_running_timer
+def running_timer
   timer_status = JSON.parse(`curl http://localhost:4567/running_timer`)
   if timer_status["running"] == true
-    turn_on(timer_status["button"])
+    timer_status["button"]
   end
 end
 
@@ -83,8 +85,10 @@ end
 
 ## End of Setup
 
-check_for_running_timer
-puts "Ready to get to work!"
+on_timer = running_timer
+
+LightShow.new(@led_1, @led_2, @led_3, @led_4, @led_5, @led_6).kick_it
+turn_on(on_timer) if on_timer
 
 # hang the code so it will listen to button clicks forever
 sleep
