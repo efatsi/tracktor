@@ -55,10 +55,21 @@ end
 
 get "/toggle" do
   content_type :json
-  TimeEntryToggler.toggle(params[:button], current_user)
+
+  if token_user.present?
+    TimeEntryToggler.toggle(params[:button], current_user)
+  else
+    { :invalid_user => true }.to_json
+  end
 end
 
 get "/running_timer" do
   content_type :json
-  RunningTimer.find
+
+  if token_user.present?
+    RunningTimer.find(current_user)
+  else
+    { :invalid_user => true }.to_json
+  end
+
 end

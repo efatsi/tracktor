@@ -8,6 +8,10 @@ module CurrentUserHelper
     User.first(:token => session[:user_token])
   end
 
+  def token_user
+    User.first(:token => params[:token])
+  end
+
   def require_login
     redirect "/" unless logged_in?
   end

@@ -1,7 +1,7 @@
-class RunningTimer
+class RunningTimer < Struct.new(:user)
 
-  def self.find
-    new.find
+  def self.find(user)
+    new(user).find
   end
 
   def find
@@ -19,4 +19,7 @@ class RunningTimer
     client.time.all.detect(&:timer_started_at).try(:id)
   end
 
+  def client
+    user.client
+  end
 end
