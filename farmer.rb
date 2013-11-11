@@ -36,7 +36,7 @@ get "/home" do
   require_login
 
   SetterUpper.set_it_up!(current_user)
-  erb :settings
+  erb :home
 end
 
 post "/set" do
