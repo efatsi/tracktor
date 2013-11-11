@@ -71,7 +71,7 @@ end
 get "/auth" do
   code = params[:code]
 
-  result = HTTParty.post("https://api.harvestapp.com/oauth2/token", :body => {
+  token_results = HTTParty.post("https://api.harvestapp.com/oauth2/token", :body => {
     :code          => code,
     :client_id     => ENV["HARVEST_CLIENT_ID"],
     :client_secret => ENV["HARVEST_CLIENT_SECRET"],
@@ -79,7 +79,7 @@ get "/auth" do
     :grant_type    => "authorization_code"
     })
 
-  user = User.create(:harvest_access_token => @result["access_token"], :harvest_refresh_token => @result["refresh_token"])
+  user = User.create(:harvest_access_token => token_results["access_token"], :harvest_refresh_token => token_results["refresh_token"])
 
   response.set_cookie 'user_token', {
     :value   => user.token,
