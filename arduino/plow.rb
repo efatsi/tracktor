@@ -1,3 +1,6 @@
+## Copy paste your User Token into the quotes here:
+@user_token = ""
+
 require 'dino'
 require 'json'
 
@@ -37,7 +40,7 @@ def led(number)
 end
 
 def running_timer
-  timer_status = JSON.parse(`curl http://localhost:4567/running_timer`)
+  timer_status = JSON.parse(`curl 'http://localhost:4567/running_timer?token=#{@user_token}'`)
   if timer_status["running"] == true
     timer_status["button"]
   end
@@ -70,7 +73,7 @@ end
 end
 
 def react_with_number(number)
-  response = JSON.parse(`curl http://localhost:4567/toggle?button=#{number}`)
+  response = JSON.parse(`curl 'http://localhost:4567/toggle?button=#{number}&token=#{@user_token}'`)
   puts response
 
   if response["success"]
@@ -89,6 +92,8 @@ on_timer = running_timer
 
 LightShow.new(@led_1, @led_2, @led_3, @led_4, @led_5, @led_6).kick_it
 turn_on(on_timer) if on_timer
+
+puts "Ready to get to work!"
 
 # hang the code so it will listen to button clicks forever
 sleep

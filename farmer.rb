@@ -10,6 +10,7 @@ Dir["helpers/*.rb"].each {|file| load file }
 Dir["lib/*.rb"].each     {|file| load file }
 
 include CurrentUserHelper
+include UrlHelper
 
 enable :sessions
 
@@ -26,25 +27,7 @@ get "/" do
   end
 end
 
-post "/login" do
-  if user = User.first_or_create(params)
-    session[:user_token] = user.token
-
-    if params[:remember]
-      response.set_cookie 'user_token', {
-        :value   => user.token,
-        :max_age => "15552000" # 6 months
-      }
-    end
-
-    redirect "/home"
-  else
-    redirect "/"
-  end
-end
-
 get "/logout" do
-  session[:user_token] = nil
   response.set_cookie 'user_token', nil
   redirect "/"
 end
@@ -67,7 +50,7 @@ get "/toggle" do
   content_type :json
 
   if token_user.present?
-    TimeEntryToggler.toggle(params[:button], current_user)
+    TimeEntryToggler.toggle(params[:button], token_user)
   else
     { :invalid_user => true }.to_json
   end
@@ -77,9 +60,31 @@ get "/running_timer" do
   content_type :json
 
   if token_user.present?
-    RunningTimer.find(current_user)
+    RunningTimer.find(token_user)
   else
     { :invalid_user => true }.to_json
   end
+end
 
+
+# OAuth2 Authentication
+get "/auth" do
+  code = params[:code]
+
+  result = HTTParty.post("https://api.harvestapp.com/oauth2/token", :body => {
+    :code          => code,
+    :client_id     => ENV["HARVEST_CLIENT_ID"],
+    :client_secret => ENV["HARVEST_CLIENT_SECRET"],
+    :redirect_uri  => ENV["HARVEST_REDIRECT_URI"],
+    :grant_type    => "authorization_code"
+    })
+
+  user = User.create(:harvest_access_token => @result["access_token"], :harvest_refresh_token => @result["refresh_token"])
+
+  response.set_cookie 'user_token', {
+    :value   => user.token,
+    :max_age => "31104000" # 6 months
+  }
+
+  redirect "/home"
 end

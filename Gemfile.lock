@@ -1,6 +1,6 @@
 GIT
   remote: git://github.com/efatsi/harvested.git
-  revision: f65a1acc2abd32929e4eb83b9f682db46398e66b
+  revision: 49779d4ad18291e8b92b690ab7d30c7ba39a7c7a
   specs:
     harvested (1.0.1)
       hashie (~> 1)
@@ -118,6 +118,7 @@ DEPENDENCIES
   dino
   dm-postgres-adapter
   harvested!
+  httparty
   pry
   shotgun
   sinatra
