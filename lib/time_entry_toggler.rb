@@ -4,6 +4,10 @@ class TimeEntryToggler < Struct.new(:button, :user)
     new(button, user).toggle
   end
 
+  def self.toggle_timer(time_entry, user)
+    new(-1, user).toggle_timer(time_entry)
+  end
+
   def toggle
     if plant && time_entry = plant.existing_time_entry
       { :success => true, :on => toggle_timer(time_entry) }.to_json

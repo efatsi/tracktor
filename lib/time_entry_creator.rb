@@ -6,7 +6,7 @@ class TimeEntryCreator < Struct.new(:plant)
 
   def create
     if existing_harvest_timer
-      TimeEntryToggler.new.toggle_timer(new_time_entry)
+      TimeEntryToggler.toggle_timer(new_time_entry, plant.user)
     else
       new_time_entry
     end
