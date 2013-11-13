@@ -3,6 +3,7 @@ Bundler.setup(:default)
 Bundler.require
 
 require 'json'
+require 'cgi'
 require 'sinatra/cookies'
 
 Dir["models/*.rb"].each  {|file| load file }
@@ -34,6 +35,8 @@ end
 
 get "/home" do
   require_login
+
+  reset_cookie(current_user)
 
   SetterUpper.set_it_up!(current_user)
   erb :home
@@ -77,14 +80,20 @@ get "/auth" do
     :client_secret => ENV["HARVEST_CLIENT_SECRET"],
     :redirect_uri  => ENV["HARVEST_REDIRECT_URI"],
     :grant_type    => "authorization_code"
-    })
+  })
 
-  user = User.create(:harvest_access_token => token_results["access_token"], :harvest_refresh_token => token_results["refresh_token"])
-
-  response.set_cookie 'user_token', {
-    :value   => user.token,
-    :max_age => "31104000" # 6 months
+  token_params = {
+    :harvest_access_token  => token_results["access_token"],
+    :harvest_refresh_token => token_results["refresh_token"]
   }
+
+  if logged_in?
+    current_user.update(token_params)
+    reset_cookie(current_user)
+  else
+    user = User.create(token_params)
+    reset_cookie(user)
+  end
 
   redirect "/home"
 end

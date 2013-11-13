@@ -3,6 +3,7 @@
 <link rel="stylesheet" type="text/css" href="/stylesheets/chosen.min.css">
 
 <h3>User Token: <%= current_user.token %></h3>
+<h4>Email: <%= current_user.email %></h4>
 
 <form action="/set" method="post">
 
@@ -36,6 +37,8 @@
 
 </form>
 
+<a href="<%= oauth_url %>">Re-Authenticate</a>
+<br>
 <a href="/logout">Logout</a>
 
 <script>

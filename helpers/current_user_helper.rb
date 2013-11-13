@@ -16,4 +16,11 @@ module CurrentUserHelper
     redirect "/" unless logged_in?
   end
 
+  def reset_cookie(user)
+    response.set_cookie('user_token', {
+      :value   => user.token,
+      :max_age => "15552000" # 12 months
+    })
+  end
+
 end

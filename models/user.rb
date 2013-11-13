@@ -3,16 +3,22 @@ class User
 
   property :id, Serial
   property :token, String
+  property :email, String
   property :harvest_access_token, Text
   property :harvest_refresh_token, Text
 
   before :create, :generate_token
+  before :create, :fetch_email
 
   has n, :projects
   has n, :plants
 
   def generate_token
     self.token = SecureRandom.urlsafe_base64(5)
+  end
+
+  def fetch_email
+    self.email = client.account.who_am_i["email"]
   end
 
   def client
