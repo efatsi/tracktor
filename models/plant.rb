@@ -8,12 +8,6 @@ class Plant
 
   validates_presence_of :button, :task_id
 
-  def self.first_or_new(button, user)
-    query = {:button => button, :user => user}
-
-    first(query) || new(query)
-  end
-
   belongs_to :task
   belongs_to :user
 
