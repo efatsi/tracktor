@@ -9,7 +9,7 @@ class Project
 
   validates_presence_of :name, :harvest_id, :client_name
 
-  has n, :tasks
+  has n, :tasks, :constraint => :destroy
   belongs_to :user
 
   def self.first_or_create(project_hash, user)

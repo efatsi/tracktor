@@ -8,6 +8,8 @@ class Task
 
   validates_presence_of :name, :harvest_id, :project_id
 
+  has n, :plants, :constraint => :destroy
+
   belongs_to :project
 
   def self.first_or_create(ticket_hash)

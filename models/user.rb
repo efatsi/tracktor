@@ -10,9 +10,9 @@ class User
   before :create, :generate_token
   before :create, :fetch_email
 
-  has n, :projects
+  has n, :projects, :constraint => :destroy
   has n, :tasks, :through => :projects
-  has n, :plants
+  has n, :plants, :constraint => :destroy
 
   def generate_token
     self.token = SecureRandom.urlsafe_base64(5)
