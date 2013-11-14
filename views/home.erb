@@ -11,12 +11,28 @@
 
     <div>
       <label>Button <%= number %></label>
-      <select name="button-<%= number %>">
-        <% selected_task_id = current_user.plants.first(:button => number).try(:task_id) %>
+      <% selected_task_id    = current_user.plants.first(:button => number).try(:task_id) %>
+      <% selected_project_id = Task.first(:id => selected_task_id).try(:project_id) %>
 
+      <br>
+
+      <select>
         <option value=""></option>
+        <% current_user.projects.group_by(&:client_name).each do |client_name, projects| %>
+          <optgroup label="<%= client_name %>">
+            <% projects.each do |project| %>
+              <option value="<%= project.id %>" <%= "selected='selected'" if project.id == selected_project_id %>><%= project.name %></option>
+            <% end %>
+          </optgroup>
+        <% end %>
+      </select>
 
-        <% current_user.projects.all.each do |project| %>
+      <br>
+
+      <select name="button-<%= number %>" id="button-<%= number %>">
+        <option value="" disabled selected>...</option>
+
+        <% current_user.projects.each do |project| %>
           <optgroup label="<%= project.to_s %>">
             <% project.tasks.each do |task| %>
               <option value="<%= task.id %>" <%= "selected='selected'" if task.id == selected_task_id %>>
@@ -25,8 +41,8 @@
             <% end %>
           </optgroup>
         <% end %>
-
       </select>
+
     </div>
 
     <br>
@@ -42,5 +58,5 @@
 <a href="/logout">Logout</a>
 
 <script>
-$("select").chosen()
+$("select").chosen({search_contains: true})
 </script>

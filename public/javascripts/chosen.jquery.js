@@ -467,7 +467,7 @@
 
     AbstractChosen.default_multiple_text = "Select Some Options";
 
-    AbstractChosen.default_single_text = "Select an Option";
+    AbstractChosen.default_single_text = "Select a Project";
 
     AbstractChosen.default_no_result_text = "No results match";
 
