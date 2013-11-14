@@ -11,6 +11,7 @@ class User
   before :create, :fetch_email
 
   has n, :projects
+  has n, :tasks, :through => :projects
   has n, :plants
 
   def generate_token

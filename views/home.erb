@@ -16,7 +16,7 @@
 
       <br>
 
-      <select>
+      <select class="projects-select" data-task-target="<%= number %>">
         <option value=""></option>
         <% current_user.projects.group_by(&:client_name).each do |client_name, projects| %>
           <optgroup label="<%= client_name %>">
@@ -29,17 +29,10 @@
 
       <br>
 
-      <select name="button-<%= number %>" id="button-<%= number %>">
+      <select name="button-<%= number %>" data-task-id="<%= number %>">
         <option value="" disabled selected>...</option>
-
-        <% current_user.projects.each do |project| %>
-          <optgroup label="<%= project.to_s %>">
-            <% project.tasks.each do |task| %>
-              <option value="<%= task.id %>" <%= "selected='selected'" if task.id == selected_task_id %>>
-                <%= task.name %>
-              </option>
-            <% end %>
-          </optgroup>
+        <% current_user.tasks.each do |task| %>
+          <option value="<%= task.id %>" data-project-id="<%= task.project.id %>" disabled <%= "selected='selected'" if task.id == selected_task_id %>><%= task.name %></option>
         <% end %>
       </select>
 
@@ -57,6 +50,4 @@
 <br>
 <a href="/logout">Logout</a>
 
-<script>
-$("select").chosen({search_contains: true})
-</script>
+<script src="/javascripts/home.js"></script>
