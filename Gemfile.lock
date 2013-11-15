@@ -10,6 +10,9 @@ GIT
 GEM
   remote: https://rubygems.org/
   specs:
+    active_support (3.0.0)
+      activesupport (= 3.0.0)
+    activesupport (3.0.0)
     addressable (2.3.5)
     awesome_print (1.2.0)
     backports (3.3.5)
@@ -107,12 +110,14 @@ GEM
       eventmachine (>= 1.0.0)
       rack (>= 1.0.0)
     tilt (1.4.1)
+    tzinfo (0.3.38)
     uuidtools (2.1.4)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
+  active_support
   awesome_print
   data_mapper
   dino
@@ -124,3 +129,4 @@ DEPENDENCIES
   sinatra
   sinatra-contrib
   thin
+  tzinfo

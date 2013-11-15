@@ -5,6 +5,8 @@ Bundler.require
 require 'json'
 require 'cgi'
 require 'sinatra/cookies'
+require 'active_support/core_ext/time/zones'
+require 'active_support/core_ext/date/calculations'
 
 Dir["models/*.rb"].each  {|file| load file }
 Dir["helpers/*.rb"].each {|file| load file }
@@ -18,6 +20,8 @@ enable :sessions
 configure do
   DataMapper.setup(:default, ENV['HEROKU_POSTGRESQL_GRAY_URL'])
   DataMapper.finalize
+
+  Time.zone = "MST"
 end
 
 get "/" do

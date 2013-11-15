@@ -16,7 +16,7 @@ class TimeEntryCreator < Struct.new(:plant)
 
   def new_time_entry
     TimeEntry.create({
-      :date       => Date.today,
+      :date       => Time.zone.now.to_date,
       :plant_id   => plant.id,
       :harvest_id => harvest_timer.id,
       :task_id    => plant.task_id

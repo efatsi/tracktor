@@ -11,7 +11,7 @@ class TimeEntryCleaner
   private
 
   def old_time_entries
-    TimeEntry.all.select{|p| p.date < Date.today}
+    TimeEntry.all.select{|p| p.date < Time.zone.now.to_date}
   end
 
 end

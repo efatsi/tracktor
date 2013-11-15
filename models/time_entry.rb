@@ -10,7 +10,7 @@ class TimeEntry
   validates_presence_of :date, :plant_id, :harvest_id, :task_id
 
   def self.for_today
-    all(:date => Date.today)
+    all(:date => Time.zone.now.to_date)
   end
 
   belongs_to :plant
