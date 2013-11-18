@@ -32,7 +32,11 @@ get "/" do
   end
 end
 
-get "/logout" do
+get "/delete_account" do
+  require_login
+
+  current_user.destroy
+
   response.set_cookie 'user_token', nil
   redirect "/"
 end
