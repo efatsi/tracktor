@@ -16,7 +16,7 @@ class RunningTimer < Struct.new(:user)
   private
 
   def running_timer_id
-    client.time.all.detect(&:timer_started_at).try(:id)
+    client.time.all(Time.zone.now).detect(&:timer_started_at).try(:id)
   end
 
   def client
