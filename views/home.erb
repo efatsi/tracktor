@@ -7,34 +7,41 @@
 
 <form action="/set" method="post">
 
-  <% (1..6).each do |number| %>
+  <% (1..6).each do |button| %>
 
     <div>
-      <label>Button <%= number %></label>
-      <% selected_task_id    = current_user.plants.first(:button => number).try(:task_id) %>
-      <% selected_project_id = Task.first(:id => selected_task_id).try(:project_id) %>
+      <b>Button <%= button %></b>
 
-      <br>
+      <% (1..3).each do |sub_number| %>
+        <% plant = (button - 1) * 3 + sub_number %>
 
-      <select class="projects-select" data-task-target="<%= number %>">
-        <option value=""></option>
-        <% current_user.projects.group_by(&:client_name).each do |client_name, projects| %>
-          <optgroup label="<%= client_name %>">
-            <% projects.each do |project| %>
-              <option value="<%= project.id %>" <%= "selected='selected'" if project.id == selected_project_id %>><%= project.name %></option>
-            <% end %>
-          </optgroup>
-        <% end %>
-      </select>
+        <% selected_task_id    = current_user.plants.first(:button => plant).try(:task_id) %>
+        <% selected_project_id = Task.first(:id => selected_task_id).try(:project_id) %>
 
-      <br>
+        <br>
 
-      <select name="button-<%= number %>" data-task-id="<%= number %>">
-        <option value="" disabled selected>...</option>
-        <% current_user.tasks.each do |task| %>
-          <option value="<%= task.id %>" data-project-id="<%= task.project.id %>" disabled <%= "selected='selected'" if task.id == selected_task_id %>><%= task.name %></option>
-        <% end %>
-      </select>
+        <select class="projects-select" data-task-target="<%= plant %>">
+          <option value=""></option>
+          <% current_user.projects.group_by(&:client_name).each do |client_name, projects| %>
+            <optgroup label="<%= client_name %>">
+              <% projects.each do |project| %>
+                <option value="<%= project.id %>" <%= "selected='selected'" if project.id == selected_project_id %>><%= project.name %></option>
+              <% end %>
+            </optgroup>
+          <% end %>
+        </select>
+
+        <br>
+
+        <select name="button-<%= plant %>" data-task-id="<%= plant %>">
+          <option value="" disabled selected>...</option>
+          <% current_user.tasks.each do |task| %>
+            <option value="<%= task.id %>" data-project-id="<%= task.project.id %>" disabled <%= "selected='selected'" if task.id == selected_task_id %>><%= task.name %></option>
+          <% end %>
+        </select>
+
+        <br>
+      <% end %>
 
     </div>
 

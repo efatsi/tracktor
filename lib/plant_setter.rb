@@ -6,8 +6,8 @@ class PlantSetter < Struct.new(:params, :user)
 
   def set
     params.each do |key, value|
-      button = key[-1].to_i
-      plant  = Plant.first_or_new(:button => button, :user => user)
+      number = key.split("-").last.to_i
+      plant  = Plant.first_or_new(:button => number, :user => user)
 
       plant.task_id = value
 

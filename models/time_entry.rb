@@ -10,6 +10,7 @@ class TimeEntry
   validates_presence_of :date, :plant_id, :harvest_id, :task_id
 
   def self.for_today
+    Time.zone = "MST"
     all(:date => Time.zone.now.to_date)
   end
 
