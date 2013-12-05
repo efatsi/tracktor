@@ -36,7 +36,7 @@ class TimeEntryCreator < Struct.new(:plant)
   def existing_harvest_timer
     return @existing_harvest_timer if defined? @existing_harvest_timer
 
-    @existing_harvest_timer = client.time.all.detect do |timer|
+    @existing_harvest_timer = client.time.all(Time.zone.now).detect do |timer|
       timer.project_id.to_i == project.harvest_id &&
       timer.task_id.to_i    == task.harvest_id
     end
