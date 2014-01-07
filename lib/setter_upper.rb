@@ -11,14 +11,10 @@ class SetterUpper < Struct.new(:user)
   end
 
   def seed_database
-    begin
-      if user.projects.count == 0
-        HarvestSeeder.seed_projects_and_tasks(user)
-      end
-    rescue DataObjects::SyntaxError # auto_migrate! if Project.count errors
-      DataMapper.auto_migrate!
-      HarvestSeeder.seed_projects_and_tasks(user)
-    end
+    HarvestSeeder.seed_projects_and_tasks(user)
+  rescue DataObjects::SyntaxError # auto_migrate! if Project.count errors
+    DataMapper.auto_migrate!
+    HarvestSeeder.seed_projects_and_tasks(user)
   end
 
   def clean_old_time_entries
