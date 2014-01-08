@@ -32,6 +32,16 @@ get "/" do
   end
 end
 
+post "/login" do
+  if user = User.first(:email => params['email'])
+    reset_cookie(user)
+    redirect "/home"
+  else
+    redirect "/"
+  end
+end
+
+
 get "/delete_account" do
   require_login
 

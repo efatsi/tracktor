@@ -21,6 +21,8 @@ module CurrentUserHelper
       :value   => user.token,
       :max_age => "15552000" # 12 months
     })
+
+    user.update_token
   end
 
 end
