@@ -1,11 +1,14 @@
 class HarvestSeeder < Struct.new(:user)
 
   def self.seed_projects_and_tasks(user)
-    new(user).seed_projects_and_tasks
+    seeder = new(user)
+
+    seeder.seed_projects_and_tasks
+    seeder.clear_out_old_things
   end
 
   def seed_projects_and_tasks
-    harvest_projects.each do |project_json|
+    harvest_data.each do |project_json|
       project = Project.first_or_create(project_json, user)
 
       project_json["tasks"].each do |task_json|
@@ -14,10 +17,23 @@ class HarvestSeeder < Struct.new(:user)
     end
   end
 
+  def clear_out_old_things
+    project_ids = harvest_data.map{|p| p['id']}
+    task_ids    = harvest_data.flat_map{|p| p['tasks'].map{|t| t['id']}}
+
+    user.projects.all.each do |project|
+      project.destroy unless project_ids.include?(project.harvest_id)
+    end
+
+    user.tasks.all.each do |task|
+      task.destroy unless task_ids.include?(task.harvest_id)
+    end
+  end
+
   private
 
-  def harvest_projects
-    response["projects"]
+  def harvest_data
+    @harvest_data ||= response["projects"]
   end
 
   def response

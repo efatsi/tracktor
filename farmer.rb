@@ -55,9 +55,12 @@ get "/home" do
   require_login
 
   reset_cookie(current_user)
-
-  SetterUpper.set_it_up!(current_user)
   erb :home
+end
+
+get "/reconfigure" do
+  SetterUpper.set_it_up!(current_user)
+  redirect "/home"
 end
 
 post "/set" do
