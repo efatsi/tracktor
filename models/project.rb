@@ -2,9 +2,9 @@ class Project
   include DataMapper::Resource
 
   property :id, Serial
-  property :name, String
+  property :name, Text
   property :harvest_id, Integer
-  property :client_name, String
+  property :client_name, Text
   property :user_id, Integer
 
   validates_presence_of :name, :harvest_id, :client_name

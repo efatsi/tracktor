@@ -111,9 +111,13 @@ get "/auth" do
   if logged_in?
     current_user.update(token_params)
     reset_cookie(current_user)
+
+    SetterUpper.set_it_up!(current_user)
   else
     user = User.create(token_params)
     reset_cookie(user)
+
+    SetterUpper.set_it_up!(user)
   end
 
   redirect "/home"

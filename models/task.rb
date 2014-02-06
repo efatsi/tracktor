@@ -2,7 +2,7 @@ class Task
   include DataMapper::Resource
 
   property :id, Serial
-  property :name, String
+  property :name, Text
   property :harvest_id, Integer
   property :project_id, Integer
 
@@ -12,12 +12,12 @@ class Task
 
   belongs_to :project
 
-  def self.first_or_create(ticket_hash)
-    first(:harvest_id => ticket_hash["id"], project_id => ticket_hash["project_id"]) ||
+  def self.first_or_create(task_hash)
+    first(:harvest_id => task_hash["id"], :project_id => task_hash["project_id"]) ||
     create({
-      :name       => ticket_hash["name"],
-      :harvest_id => ticket_hash["id"],
-      :project_id => ticket_hash["project_id"]
+      :name       => task_hash["name"],
+      :harvest_id => task_hash["id"],
+      :project_id => task_hash["project_id"]
     })
   end
 
