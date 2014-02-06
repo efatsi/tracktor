@@ -19,14 +19,16 @@ class HarvestSeeder < Struct.new(:user)
 
   def clear_out_old_things
     project_ids = harvest_data.map{|p| p['id']}
-    task_ids    = harvest_data.flat_map{|p| p['tasks'].map{|t| t['id']}}
 
-    user.projects.all.each do |project|
+    user.projects.each do |project|
       project.destroy unless project_ids.include?(project.harvest_id)
-    end
 
-    user.tasks.all.each do |task|
-      task.destroy unless task_ids.include?(task.harvest_id)
+      project_tasks = harvest_data.detect{|a| a['id'] == project.harvest_id}['tasks']
+      task_ids      = project_tasks.map{|t| t['id']}
+
+      project.tasks.each do |task|
+        task.destroy unless task_ids.include?(task.harvest_id)
+      end
     end
   end
 
